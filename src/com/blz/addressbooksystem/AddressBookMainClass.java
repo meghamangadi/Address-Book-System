@@ -16,10 +16,8 @@ public class AddressBookMainClass {
 		
 
 		Scanner sc=new Scanner(System.in);
-		
-		
 		System.out.println("Enter your choice");
-		System.out.println("1 : Add new contact    2 : Edit contact   ");
+		System.out.println("1 : Add new contact    2 : Edit contact   3 : Delete Contact");
 		int choice=sc.nextInt();
 		switch(choice)
 		{
@@ -40,7 +38,6 @@ public class AddressBookMainClass {
 			long phone = sc.nextLong();
 			List<Contact> contactList=new ArrayList<>();
 			Contact contact= new Contact( firstName,   lastName,   address,   city,   state,   zip,   phone);
-		    
 			contactList.add(contact); 
 			addressBook.setContacts(contactList);
 			displayContacts(addressBook);
@@ -65,6 +62,12 @@ public class AddressBookMainClass {
 			editContact(name,editLastName,editAddress,editCity,editState,editzip,editPhone);
 			addContactDetails();
 			break;
+		case 3:	
+			System.out.println("Enter the person Name");
+			String deletename = sc.next();
+			deleteContactDetails(deletename);
+			addContactDetails();
+			break;
 			default :
 				System.out.println("Please Enter correct choice");
 				break;
@@ -76,6 +79,28 @@ public class AddressBookMainClass {
 		sc.close();
 
 	
+	}
+	 
+	public static void deleteContactDetails(String name) {
+		 List<Contact> contactDetails=addressBook.getContacts();
+		for (int i =0;i <=contactDetails.size()-1;i++) {
+			 
+			int value = 0;
+			Contact contactperson=contactDetails.get(i);
+			if (contactperson.getFirstName().equals(name)) {
+				contactperson.setAddress("");
+				contactperson.setCity("");
+				contactperson.setFirstName("");
+				contactperson.setLastName("");
+				contactperson.setPhone(value);
+				contactperson.setState("");
+				contactperson.setZip(value);
+				contactDetails.set(i, contactperson);
+				addressBook.setContacts(contactDetails);
+			}
+		}
+		System.out.println("Contact deleted Successfully");
+		displayContacts(addressBook);
 	}
 	public static void editContact(String name,String lastname,String address,String city,String state,int zip,long phone) {
 		 List<Contact> contactDetails=addressBook.getContacts();
@@ -102,11 +127,15 @@ public class AddressBookMainClass {
 		 
 		 for (int i =0;i <=contactDetails.size()-1;i++) {
 			 Contact contactperson=contactDetails.get(i);
+			 if(!contactperson.getFirstName().equals("")) {
 			 System.out.println("Conatct Details :"); 
 			 System.out.println("FirstName :"+contactperson.getFirstName()+"      LastName :"+contactperson.getLastName()
 			 		+ "     Address :"+contactperson.getAddress()+"      City :"+contactperson.getCity()+
 			 		"       State :"+contactperson.getState()+"     Zip :"+contactperson.getZip()+"     Phone Number :"+contactperson.getPhone()); 
-			 
+			 }else {
+				 
+				 System.out.println("No Conatct Details available :");
+			 }
 		 }
 		 
 	 }
